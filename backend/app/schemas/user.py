@@ -27,7 +27,16 @@ class UserResponse(BaseModel):
     email: str
     full_name: str | None
     is_active: bool
+    is_admin: bool
     created_at: datetime
 
     class Config:
         from_attributes = True
+
+
+class UserAdminUpdate(BaseModel):
+    """관리자용 사용자 수정 스키마"""
+    email: str | None = None
+    full_name: str | None = None
+    is_active: bool | None = None
+    is_admin: bool | None = None

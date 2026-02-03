@@ -26,3 +26,7 @@ env/
 dist/
 build/
 *.egg-info/
+
+# Uploads (keep directory structure, ignore uploaded files)
+uploads/videos/*
+!uploads/videos/.gitkeep

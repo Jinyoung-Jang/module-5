@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import engine, Base
-from app.routers import examples, auth
+from app.routers import examples, auth, posts, stream, permissions, admin
 
 # 데이터베이스 테이블 생성
 Base.metadata.create_all(bind=engine)
@@ -21,6 +21,10 @@ app.add_middleware(
 # 라우터 등록
 app.include_router(examples.router)
 app.include_router(auth.router)
+app.include_router(posts.router)
+app.include_router(stream.router)
+app.include_router(permissions.router)
+app.include_router(admin.router)
 
 
 @app.get("/api/health")

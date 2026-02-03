@@ -23,6 +23,7 @@ def register(user_data: UserRegister, db: Session = Depends(get_db)):
 
     - 이메일 중복 체크
     - 비밀번호 해싱 후 저장
+    - 첫 번째 가입자는 관리자로 설정
     - 생성된 사용자 정보 반환
     """
     # 이메일 중복 체크
@@ -33,14 +34,19 @@ def register(user_data: UserRegister, db: Session = Depends(get_db)):
             detail="Email already registered"
         )
 
+    # 첫 번째 가입자인지 확인
+    user_count = db.query(User).count()
+    is_first_user = user_count == 0
+
     # 비밀번호 해싱
     hashed_password = hash_password(user_data.password)
 
-    # User 생성
+    # User 생성 (첫 번째 가입자는 관리자)
     new_user = User(
         email=user_data.email,
         hashed_password=hashed_password,
-        full_name=user_data.full_name
+        full_name=user_data.full_name,
+        is_admin=is_first_user
     )
 
     db.add(new_user)
