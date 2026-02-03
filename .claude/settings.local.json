@@ -2,7 +2,36 @@
   "permissions": {
     "allow": [
       "Bash(gh:*)",
-      "Bash(git:*)"
+      "Bash(git:*)",
+      "Bash(dir:*)",
+      "Bash(if exist app.db del app.db)",
+      "Bash(python:*)",
+      "Bash(.venvScriptspython -c \"from app.database import engine, Base; from app.models import User, Example; Base.metadata.create_all\\(bind=engine\\); print\\(''Tables created successfully''\\)\")",
+      "Bash(source .venv/Scripts/activate)",
+      "Bash(sqlite3:*)",
+      "Bash(pip install:*)",
+      "Bash(.venv/Scripts/python.exe -m pip install:*)",
+      "Bash(.venv/Scripts/python.exe:*)",
+      "Bash(.venv/Scripts/uvicorn.exe:*)",
+      "Bash(curl:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm run dev:*)",
+      "Bash(.venvScriptsactivate)",
+      "Bash(.venv\\\\Scripts\\\\python.exe -m pytest db/test/ -v --tb=short)",
+      "Bash(.venv\\\\Scripts\\\\pip.exe install pytest -q)",
+      "Bash(.venv/Scripts/pip.exe install:*)",
+      "Bash(/c/Users/student/Desktop/vive-code/module_5-main/backend/.venv/Scripts/pip3.exe install:*)",
+      "Bash(/c/Users/student/Desktop/vive-code/module_5-main/backend/.venv/Scripts/python.exe -m pytest:*)",
+      "Bash(.venvScriptspip install pytest httpx)",
+      "Bash(\"C:/Users/student/Desktop/vive-code/module_5-main/backend/.venv/Scripts/pip3.exe\" install httpx)",
+      "Bash(\"C:/Users/student/Desktop/vive-code/module_5-main/backend/.venv/Scripts/pytest.exe\" test/ -v)",
+      "Bash(\"C:/Users/student/Desktop/vive-code/module_5-main/backend/.venv/Scripts/pip3.exe\" install bcrypt)",
+      "Bash(\"C:/Users/student/Desktop/vive-code/module_5-main/backend/.venv/Scripts/pytest.exe\" test/ -v --tb=short)",
+      "Bash(\"C:/Users/student/Desktop/vive-code/module_5-main/backend/.venv/Scripts/pip3.exe\" install \"httpx>=0.23.0,<0.28.0\")",
+      "Bash(\"C:/Users/student/Desktop/vive-code/module_5-main/backend/.venv/Scripts/pytest.exe\" test/test_login.py::TestLoginEndpoint::test_login_success -v --tb=long)",
+      "Bash(\"C:/Users/student/Desktop/vive-code/module_5-main/backend/.venv/Scripts/pip3.exe\" install \"bcrypt>=4.0.0,<5.0.0\")",
+      "Bash(npm test:*)",
+      "Bash(npm install)"
     ]
   }
 }
