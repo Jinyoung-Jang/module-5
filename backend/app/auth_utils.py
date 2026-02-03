@@ -7,16 +7,13 @@
 import secrets
 from datetime import datetime, timedelta
 
+import bcrypt
 from jose import JWTError, jwt
-from passlib.context import CryptContext
 
 # 상수 정의
 SECRET_KEY = secrets.token_hex(32)  # 개발용 랜덤 키 (프로덕션에서는 환경변수 사용)
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
-# bcrypt 해싱 컨텍스트
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def hash_password(password: str) -> str:
@@ -29,7 +26,12 @@ def hash_password(password: str) -> str:
     Returns:
         해싱된 비밀번호
     """
-    return pwd_context.hash(password)
+    # bcrypt는 bytes를 요구하므로 인코딩
+    password_bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(password_bytes, salt)
+    # 문자열로 반환 (DB 저장용)
+    return hashed.decode('utf-8')
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
@@ -43,7 +45,9 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     Returns:
         비밀번호 일치 여부
     """
-    return pwd_context.verify(plain_password, hashed_password)
+    password_bytes = plain_password.encode('utf-8')
+    hashed_bytes = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(password_bytes, hashed_bytes)
 
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:

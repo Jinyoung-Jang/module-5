@@ -50,8 +50,12 @@ def register(user_data: UserRegister, db: Session = Depends(get_db)):
     return new_user
 
 
-@router.post("/login")
-def login(user_data: UserLogin, db: Session = Depends(get_db)):
+@router.post("/login", response_model=Token)
+def login(
+    user_data: UserLogin,
+    response: Response,
+    db: Session = Depends(get_db)
+):
     """
     로그인 엔드포인트
 
@@ -79,8 +83,7 @@ def login(user_data: UserLogin, db: Session = Depends(get_db)):
         data={"sub": str(user.id), "email": user.email}
     )
 
-    # Response에 httpOnly cookie 설정
-    response = Response(status_code=200)
+    # httpOnly cookie 설정
     response.set_cookie(
         key="access_token",
         value=access_token,
@@ -90,12 +93,8 @@ def login(user_data: UserLogin, db: Session = Depends(get_db)):
         max_age=1800        # 30분 (초 단위)
     )
 
-    # 응답 바디 설정
-    token_response = Token(access_token=access_token, token_type="bearer")
-    response.body = token_response.model_dump_json().encode()
-    response.headers["content-type"] = "application/json"
-
-    return response
+    # Token 모델 반환
+    return Token(access_token=access_token, token_type="bearer")
 
 
 @router.get("/me", response_model=UserResponse)
